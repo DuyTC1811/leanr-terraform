@@ -1,0 +1,6 @@
+ssh_user                   = "debian"
+ssh_host_etcd              = "192.168.1.50"
+ssh_private_key_path       = "../../ssh/keys/id_rsa_dev"
+certificates_ca_path       = "../../ssh/openssl/ca.pem"
+certificates_etcd_path     = "../../ssh/openssl/etcd.pem"
+certificates_etcd_key_path = "../../ssh/openssl/etcd-key.pem"
