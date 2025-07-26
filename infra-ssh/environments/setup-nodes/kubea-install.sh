@@ -1,3 +1,8 @@
+#!/bin/bash
+
+set -xe
+ROLE=$1
+
 echo "[ TURN OFF SWAP ]"
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
@@ -29,9 +34,24 @@ sudo systemctl enable --now containerd
 echo "[ INSTALLING KUBERNETES ]"
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+sudo rm -f /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 sudo systemctl enable --now kubelet
+
+sudo ufw allow 6443/tcp
+sudo ufw allow 2379/tcp
+sudo ufw allow 2380/tcp
+sudo ufw allow 10250/tcp
+sudo ufw allow 10251/tcp
+sudo ufw allow 10252/tcp
+sudo ufw allow 10255/tcp
+sudo ufw reload
+sudo ufw status
+
+sudo hostnamectl set-hostname "$ROLE"
+echo "Kubernetes node setup complete for role: $ROLE"
+sudo reboot

@@ -1,5 +1,5 @@
 common-key/
-environments/kubea-master/.terraform
-environments/kubea-master/.terraform.tfstate
-environments/kubea-master/terraform.tfstate.backup
-environments/kubea-master/.terraform.lock.hcl
+environments/setup-nodes/.terraform
+environments/setup-nodes/.terraform.tfstate
+environments/setup-nodes/terraform.tfstate.backup
+environments/setup-nodes/.terraform.lock.hcl

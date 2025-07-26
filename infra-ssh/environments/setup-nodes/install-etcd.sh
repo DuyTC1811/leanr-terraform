@@ -1,3 +1,8 @@
+#!/bin/bash
+
+set -xe
+ROLE=$1
+
 echo "[ INSTALL ETCD ]"
 ETCD_VER=v3.6.4
 
@@ -13,7 +18,7 @@ echo "[ DOWNLOAD AND UNZIP ETCD ]"
 curl -L ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 tar xzvf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1 --no-same-owner
 rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
-sudo mkdir -p /var/lib/etcd
+sudo mkdir -p /var/lib/etcd/
 
 echo "[ EXECUTABLE CHECK VERSION ]"
 /tmp/etcd-download-test/etcd --version
@@ -29,3 +34,7 @@ etcdutl version
 
 echo "[ OPEN PORTS 2379 AND 2380 ]"
 sudo ufw allow 2379:2380/tcp
+
+sudo hostnamectl set-hostname "$ROLE"
+echo "ETCD setup complete for role: $ROLE"
+sudo reboot
