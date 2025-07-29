@@ -7,7 +7,7 @@ resource "null_resource" "install_haproxy" {
   }
 
   provisioner "file" {
-    source      = "/install-haproxy.sh"
+    source      = "install-haproxy.sh"
     destination = "/tmp/install-haproxy.sh"
   }
 

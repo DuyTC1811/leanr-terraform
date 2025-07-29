@@ -28,3 +28,9 @@ variable "certificates_etcd_key_path" {
   description = "Path to the etcd private key"
   type        = string
 }
+
+variable "generate_certificates" {
+  description = "Path to the script for generating certificates"
+  type        = string
+  default     = "../../common-key/generate-certificates.sh"
+}

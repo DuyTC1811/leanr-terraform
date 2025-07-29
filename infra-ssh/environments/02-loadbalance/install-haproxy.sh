@@ -1,16 +1,19 @@
 #!/bin/bash
-set -xe
+set -xeuo pipefail
 
 MASTER_IPS="$1"
 
-echo "[ SETUP AND SETTING HAPROXY ]"
+echo "[INFO] Installing HAProxy..."
 curl https://haproxy.debian.net/haproxy-archive-keyring.gpg > /usr/share/keyrings/haproxy-archive-keyring.gpg
 echo deb "[signed-by=/usr/share/keyrings/haproxy-archive-keyring.gpg]" http://haproxy.debian.net bookworm-backports-3.2 main > /etc/apt/sources.list.d/haproxy.list
 
-echo "[ ENABLE HAPROXY TO AUTOMATICALLY START ON REBOOT ]"
+sudo apt-get update -y
+sudo apt-get install -y haproxy
+
+echo "[INFO] Enabling and starting HAProxy..."
 sudo systemctl enable --now haproxy
 
-echo "[ CONFIGURATION HAPROXY ]" 
+echo "[INFO] Generating HAProxy config..."
 cat <<'EOF' | sudo tee /etc/haproxy/haproxy.cfg >/dev/null
 global
     # local2.*  /var/log/haproxy.log
@@ -60,12 +63,14 @@ for ip in $MASTER_IPS; do
   ((i++))
 done
 
-echo "[ CHECK STATUS HAPROXY ]" 
+echo "[INFO] Checking HAProxy config..."
 sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+echo "[INFO] Restarting HAProxy..."
 sudo systemctl restart haproxy
 sudo systemctl status haproxy --no-pager
 
-echo "[ ALLOWING HAPROXY PORTS IN FIREWALL ]"
+echo "[INFO] Opening necessary ports with UFW..."
 sudo ufw allow 6443/tcp
 sudo ufw allow 2379/tcp
 sudo ufw allow 2380/tcp
@@ -74,3 +79,4 @@ sudo ufw allow 10251/tcp
 sudo ufw allow 10252/tcp
 sudo ufw allow 10255/tcp
 sudo ufw reload
+echo -e "\e[34m[DONE] HAProxy setup complete!\e[0m"

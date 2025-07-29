@@ -8,10 +8,6 @@ resource "null_resource" "setup_nodes" {
     host        = each.key
   }
 
-  provisioner "local-exec" {
-    command = "echo 'Deployment started on ${self.public_ip}' >> deployment.log"
-  }
-
   # Copy install ETCD script
   provisioner "file" {
     source      = "install-etcd.sh"
@@ -42,12 +38,12 @@ resource "null_resource" "setup_nodes" {
     destination = "/tmp/etcd.pem"
   }
 
-  # Copy etcd private key
+  # Copy etcd private key`
   provisioner "file" {
     source      = var.certificates_etcd_key_path
     destination = "/tmp/etcd-key.pem"
   }
-
+  
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/kubea-install.sh",

@@ -16,6 +16,6 @@ variable "ssh_private_key_path" {
 
 variable "k8s_master_ips" {
   type = list(string)
-  description = "Danh sách IP các node master"
+  description = "List of IP addresses for Kubernetes master nodes"
 }
 
