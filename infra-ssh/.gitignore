@@ -1,5 +1,27 @@
-common-key/
-environments/setup-nodes/.terraform
-environments/setup-nodes/.terraform.tfstate
-environments/setup-nodes/terraform.tfstate.backup
-environments/setup-nodes/.terraform.lock.hcl
+# ======================================
+# Terraform ignore rules
+# ======================================
+
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Local Terraform folders
+.terraform/
+.terraform.lock.hcl
+
+# Ignore Terraform state and lock files for all environments
+environments/**/.terraform/
+environments/**/.terraform.tfstate
+environments/**/terraform.tfstate.backup
+environments/**/.terraform.lock.hcl
+
+# Ignore sensitive keys
+common-key/openssl
+common-key/id_rsa_dev
+
+# Optional: ignore logs or debug outputs (if any)
+*.log
+
+# Optional: ignore plan files
+*.tfplan

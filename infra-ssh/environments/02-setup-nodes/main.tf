@@ -8,6 +8,10 @@ resource "null_resource" "setup_nodes" {
     host        = each.key
   }
 
+  provisioner "local-exec" {
+    command = "echo 'Deployment started on ${self.public_ip}' >> deployment.log"
+  }
+
   # Copy install ETCD script
   provisioner "file" {
     source      = "install-etcd.sh"
@@ -42,20 +46,6 @@ resource "null_resource" "setup_nodes" {
   provisioner "file" {
     source      = var.certificates_etcd_key_path
     destination = "/tmp/etcd-key.pem"
-  }
-  
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/kubea-install.sh",
-      "if [ \"$ROLE\" = \"master\" ]; then",
-      "  echo '[INFO] Installing master...${each.value}'",
-      "  sudo mkdir -vp /etc/kubernetes/pki/etcd/",
-      "  sudo /tmp/kubea-install.sh ${each.value}",
-      "  sudo mv /tmp/ca.pem /etc/kubernetes/pki/etcd/ca.pem",
-      "  sudo mv /tmp/etcd.pem /etc/kubernetes/pki/etcd/etcd.pem",
-      "  sudo mv /tmp/etcd-key.pem /etc/kubernetes/pki/etcd/etcd-key.pem",
-      "fi"
-    ]
   }
 
   provisioner "remote-exec" {
