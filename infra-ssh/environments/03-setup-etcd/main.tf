@@ -1,4 +1,4 @@
-resource "null_resource" "append_hosts" {
+resource "null_resource" "setup_etcd" {
   connection {
     type        = "ssh"
     host        = var.ssh_host
@@ -39,7 +39,7 @@ resource "null_resource" "append_hosts" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/01-install-etcd.sh /tmp/02-setup-service-etcd.sh",
-      "sudo /tmp/install-etcd.sh",
+      "sudo /tmp/01-install-etcd.sh",
       "sudo /tmp/02-setup-service-etcd.sh"
     ]
   }

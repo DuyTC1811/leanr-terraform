@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -xe
+
 cat <<EOF | sudo tee /etc/systemd/system/etcd.service
 [Unit]
 Description=etcd
@@ -42,4 +46,5 @@ export ETCDCTL_KEY="/var/lib/etcd/etcd-key.pem"
 echo "[ TEST ETCD ]"
 etcdctl --endpoints=https://127.0.0.1:2379 put foo "Hello ETCD"
 etcdctl --endpoints=https://127.0.0.1:2379 get foo
+reboot
 
