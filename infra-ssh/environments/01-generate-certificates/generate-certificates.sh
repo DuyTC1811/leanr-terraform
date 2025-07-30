@@ -37,4 +37,4 @@ openssl x509 -req -in etcd-csr.pem -CA ca.pem -CAkey ca-key.pem -CAcreateserial 
 echo ">>> DISPLAYING GENERATED CERTIFICATES..."
 ls -l
 
-echo ">>> Certificates have been successfully created in '${CERT_DIR}'"
+echo -e ">>>\e[34m Certificates have been successfully created in '${CERT_DIR}'\e[0m"

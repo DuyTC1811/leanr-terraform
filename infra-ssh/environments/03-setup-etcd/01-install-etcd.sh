@@ -37,4 +37,5 @@ sudo ufw allow 2379:2380/tcp
 
 sudo hostnamectl set-hostname "$ROLE"
 echo "ETCD setup complete for role: $ROLE"
+echo -e "\e[34m[DONE] ETCD \e[0m"
 sudo reboot

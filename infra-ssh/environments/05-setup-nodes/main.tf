@@ -8,18 +8,6 @@ resource "null_resource" "setup_nodes" {
     host        = each.key
   }
 
-  # Copy install ETCD script
-  provisioner "file" {
-    source      = "install-etcd.sh"
-    destination = "/tmp/install-etcd.sh"
-  }
-
-  # Copy setup service ETCD script
-  provisioner "file" {
-    source      = "setup-service-etcd.sh"
-    destination = "/tmp/setup-service-etcd.sh"
-  }
-
   # Copy install script
   provisioner "file" {
     source      = "kubea-install.sh"
@@ -43,7 +31,7 @@ resource "null_resource" "setup_nodes" {
     source      = var.certificates_etcd_key_path
     destination = "/tmp/etcd-key.pem"
   }
-  
+
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/kubea-install.sh",
@@ -54,14 +42,6 @@ resource "null_resource" "setup_nodes" {
       "  sudo mv /tmp/ca.pem /etc/kubernetes/pki/etcd/ca.pem",
       "  sudo mv /tmp/etcd.pem /etc/kubernetes/pki/etcd/etcd.pem",
       "  sudo mv /tmp/etcd-key.pem /etc/kubernetes/pki/etcd/etcd-key.pem",
-      "elif [ \"$ROLE\" = \"etcd\" ]; then",
-      "  echo '[INFO] Installing etcd-only node...'",
-      "  chmod +x /tmp/install-etcd.sh /tmp/setup-service-etcd.sh",
-      "  sudo /tmp/install-etcd.sh",
-      "  sudo /tmp/setup-service-etcd.sh",
-      "  sudo mv /tmp/ca.pem /var/lib/etcd//ca.pem",
-      "  sudo mv /tmp/etcd.pem /var/lib/etcd/etcd.pem",
-      "  sudo mv /tmp/etcd-key.pem /var/lib/etcd/etcd-key.pem",
       "else",
       "  echo '[INFO] Installing worker...${each.value}'",
       "  sudo /tmp/kubea-install.sh ${each.value}",
