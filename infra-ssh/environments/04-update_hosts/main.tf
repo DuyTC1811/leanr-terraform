@@ -3,8 +3,8 @@ resource "null_resource" "append_hosts" {
 
   connection {
     type        = "ssh"
-    host        = each.key
-    user        = var.ssh_user
+    host        = lookup(var.ssh_hosts, each.key, null)["ssh_host"]
+    user        = lookup(var.ssh_hosts, each.key, null)["ssh_user"]
     private_key = file(var.ssh_private_key_path)
   }
 

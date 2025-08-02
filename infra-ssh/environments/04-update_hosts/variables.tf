@@ -1,12 +1,9 @@
-variable "ssh_user" {
-  description = "SSH user for master node"
-  type        = string
-  default     = "root"
-}
-
-variable "ssh_host" {
-  description = "Mapping of IP addresses to node names"
-  type        = string
+variable "ssh_hosts" {
+  description = "Map of SSH hosts with user and host information"
+  type = map(object({
+    ssh_user = string
+    ssh_host = string
+  }))
 }
 
 variable "ssh_private_key_path" {
