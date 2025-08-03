@@ -12,8 +12,8 @@ resource "null_resource" "init_master" {
 
   # Copy file cấu hình kubeadm (đã render từ template nếu cần)
   provisioner "file" {
-    source      = "kubeadm-config.yaml"
-    destination = "/tmp/kubeadm-config.yaml"
+    source      = "gen-kubeadm-config"
+    destination = "/tmp/gen-kubeadm-config"
   }
 
   # Khởi tạo master node bằng kubeadm init

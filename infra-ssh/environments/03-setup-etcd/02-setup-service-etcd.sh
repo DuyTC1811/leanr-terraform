@@ -10,11 +10,11 @@ After=network.target
 [Service]
 ExecStart=/usr/local/bin/etcd \\
   --name etcd-01 \\
-  --initial-advertise-peer-urls https://192.168.1.50:2380 \\
-  --listen-peer-urls https://192.168.1.50:2380 \\
-  --listen-client-urls https://192.168.1.50:2379,https://127.0.0.1:2379 \\
-  --advertise-client-urls https://192.168.1.50:2379 \\
-  --initial-cluster etcd-01=https://192.168.1.50:2380 \\
+  --initial-advertise-peer-urls https://192.168.1.51:2380 \\
+  --listen-peer-urls https://192.168.1.51:2380 \\
+  --listen-client-urls https://192.168.1.51:2379,https://127.0.0.1:2379 \\
+  --advertise-client-urls https://192.168.1.51:2379 \\
+  --initial-cluster etcd-01=https://192.168.1.51:2380 \\
   --initial-cluster-state new \\
   --initial-cluster-token etcd-cluster-1 \\
   --data-dir=/var/lib/etcd/data \\
@@ -44,6 +44,7 @@ export ETCDCTL_CERT="/var/lib/etcd/etcd.pem"
 export ETCDCTL_KEY="/var/lib/etcd/etcd-key.pem"
 
 echo "[ TEST ETCD ]"
+etcdctl --endpoints=https://127.0.0.1:2379 del foo
 etcdctl --endpoints=https://127.0.0.1:2379 put foo "Hello ETCD"
 etcdctl --endpoints=https://127.0.0.1:2379 get foo
 reboot

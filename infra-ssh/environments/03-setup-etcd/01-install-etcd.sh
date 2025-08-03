@@ -18,7 +18,6 @@ echo "[ DOWNLOAD AND UNZIP ETCD ]"
 curl -L ${DOWNLOAD_URL}/${ETCD_VER}/etcd-${ETCD_VER}-linux-amd64.tar.gz -o /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 tar xzvf /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz -C /tmp/etcd-download-test --strip-components=1 --no-same-owner
 rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
-sudo mkdir -p /var/lib/etcd/
 
 echo "[ EXECUTABLE CHECK VERSION ]"
 /tmp/etcd-download-test/etcd --version

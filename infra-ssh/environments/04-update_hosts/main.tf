@@ -1,20 +1,22 @@
 resource "null_resource" "append_hosts" {
-  for_each = var.node_map
+  for_each = var.ssh_hosts
 
   connection {
-    type        = "ssh"
-    host        = lookup(var.ssh_hosts, each.key, null)["ssh_host"]
-    user        = lookup(var.ssh_hosts, each.key, null)["ssh_user"]
+    host        = each.value.ssh_host
+    user        = each.value.ssh_user
     private_key = file(var.ssh_private_key_path)
   }
 
   provisioner "remote-exec" {
     inline = [
-      <<EOT
-          if ! grep -qE "^${each.key}\\s+${each.value}" /etc/hosts; then
-            echo "${each.key}    ${each.value}" | sudo tee -a /etc/hosts
-          fi
+      join("\n", [
+        for ip, name in var.node_map :
+        <<EOT
+        if ! grep -qE "^${ip}\\s+${name}" /etc/hosts; then
+          echo "${ip}    ${name}" | sudo tee -a /etc/hosts
+        fi
         EOT
+      ])
     ]
   }
 }

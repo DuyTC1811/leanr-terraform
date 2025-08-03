@@ -3,18 +3,12 @@ resource "null_resource" "setup_nodes" {
 
   connection {
     type        = "ssh"
+    host        = each.key
     user        = var.ssh_user
     private_key = file(var.ssh_private_key_path)
-    host        = each.key
   }
 
-  # Copy install script
-  provisioner "file" {
-    source      = "kubea-install.sh"
-    destination = "/tmp/kubea-install.sh"
-  }
-
-  # Copy certificates
+    # Copy certificates
   provisioner "file" {
     source      = var.certificates_ca_path
     destination = "/tmp/ca.pem"
