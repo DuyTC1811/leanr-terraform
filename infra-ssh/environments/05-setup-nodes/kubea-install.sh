@@ -27,7 +27,9 @@ echo "[ INSTALLING CONTAINERD ]"
 sudo apt-get -y install containerd
 containerd config default | sudo tee /etc/containerd/config.toml
 sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+sudo sed -i 's|sandbox_image = ".*"|sandbox_image = "registry.k8s.io/pause:3.10"|' /etc/containerd/config.toml
 cat /etc/containerd/config.toml | grep SystemdCgroup
+cat /etc/containerd/config.toml | grep sandbox_image
 sudo systemctl restart containerd
 sudo systemctl enable --now containerd
 
@@ -54,4 +56,3 @@ sudo ufw status
 
 sudo hostnamectl set-hostname "$ROLE"
 echo "Kubernetes node setup complete for role: $ROLE"
-sudo reboot

@@ -18,7 +18,7 @@ resource "null_resource" "setup_etcd" {
     destination = "/tmp/02-setup-service-etcd.sh"
   }
 
-    # Copy certificates
+  # Copy certificates
   provisioner "file" {
     source      = var.certificates_ca_path
     destination = "/tmp/ca.pem"
@@ -39,13 +39,14 @@ resource "null_resource" "setup_etcd" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/01-install-etcd.sh /tmp/02-setup-service-etcd.sh",
-      "rm -rf /var/lib/etcd/",
+      "sudo rm -rf /var/lib/etcd/",
       "sudo mkdir -p /var/lib/etcd/",
       "sudo mv /tmp/ca.pem /var/lib/etcd/ca.pem",
       "sudo mv /tmp/etcd.pem /var/lib/etcd/etcd.pem",
       "sudo mv /tmp/etcd-key.pem /var/lib/etcd/etcd-key.pem",
       "sudo /tmp/01-install-etcd.sh",
-      "sudo /tmp/02-setup-service-etcd.sh"
+      "sudo /tmp/02-setup-service-etcd.sh",
+      "sudo reboot",
     ]
   }
 }

@@ -26,7 +26,7 @@ openssl req -new -key etcd-key.pem -out etcd-csr.pem -subj "/C=VN/ST=Metri/L=Han
 # 3. Create SAN config
 echo ">>> CREATING SAN CONFIGURATION..."
 cat <<EOF > extfile.cnf
-subjectAltName = DNS:localhost,IP:192.168.1.50,IP:127.0.0.1
+subjectAltName = DNS:localhost,IP:192.168.1.51,IP:127.0.0.1
 EOF
 
 # 4. Sign etcd CSR with CA cert

@@ -26,19 +26,26 @@ resource "null_resource" "setup_nodes" {
     destination = "/tmp/etcd-key.pem"
   }
 
+    provisioner "file" {
+    source      = "${path.module}/kubea-install.sh"
+    destination = "/tmp/kubea-install.sh"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/kubea-install.sh",
-      "if [ \"$ROLE\" = \"master\" ]; then",
+      "if [ \"${each.value}\" = \"master\" ]; then",
       "  echo '[INFO] Installing master...${each.value}'",
-      "  sudo mkdir -vp /etc/kubernetes/pki/etcd/",
+      "  sudo mkdir -p /etc/kubernetes/pki/etcd/",
       "  sudo /tmp/kubea-install.sh ${each.value}",
-      "  sudo mv /tmp/ca.pem /etc/kubernetes/pki/etcd/ca.pem",
-      "  sudo mv /tmp/etcd.pem /etc/kubernetes/pki/etcd/etcd.pem",
-      "  sudo mv /tmp/etcd-key.pem /etc/kubernetes/pki/etcd/etcd-key.pem",
+      "  sudo mv /tmp/ca.pem /etc/kubernetes/pki/etcd/",
+      "  sudo mv /tmp/etcd.pem /etc/kubernetes/pki/etcd/",
+      "  sudo mv /tmp/etcd-key.pem /etc/kubernetes/pki/etcd/",
+      "  sudo reboot",
       "else",
       "  echo '[INFO] Installing worker...${each.value}'",
       "  sudo /tmp/kubea-install.sh ${each.value}",
+      "  sudo reboot",
       "fi"
     ]
   }

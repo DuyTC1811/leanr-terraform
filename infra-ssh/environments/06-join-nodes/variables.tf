@@ -14,17 +14,3 @@ variable "ssh_private_key_path" {
   type        = string
 }
 
-variable "certificates_ca_path" {
-  description = "Path to the CA certificate"
-  type        = string
-}
-
-variable "certificates_etcd_path" {
-  description = "Path to the etcd certificate"
-  type        = string
-}
-
-variable "certificates_etcd_key_path" {
-  description = "Path to the etcd private key"
-  type        = string
-}
