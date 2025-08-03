@@ -18,9 +18,9 @@ CERT_SANS=(${5//,/ })
 ETCD_ENDPOINTS=(${6//,/ })
 CERTIFICATE_KEY=$(kubeadm certs certificate-key)
 
-echo "[📦] Đang tạo kubeadm-config.yaml..."
+echo "[ START ] created kubeadm-config.yaml..."
 
-cat <<EOF | sudo tee kubeadm-config.yaml > /dev/null
+cat <<EOF | sudo tee /tmp/kubeadm-config.yaml > /dev/null
 ---
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: InitConfiguration
@@ -34,7 +34,9 @@ bootstrapTokens:
 nodeRegistration:
   name: "$HOSTNAME"
   criSocket: "unix:///var/run/containerd/containerd.sock"
-  taints: []
+  taints:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/master
   ignorePreflightErrors:
     - IsPrivilegedUser
   imagePullPolicy: "IfNotPresent"
@@ -49,7 +51,7 @@ timeouts:
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
 kubernetesVersion: "stable"
-controlPlaneEndpoint: "$CONTROL_PLANE_IP:6443"
+controlPlaneEndpoint: "$CONTROL_PLANE_ENDPOINT:6443"
 clusterName: "example-cluster"
 certificatesDir: "/etc/kubernetes/pki"
 imageRepository: "registry.k8s.io"
@@ -79,7 +81,7 @@ proxy:
   disabled: true
 EOF
 
-echo "[✅] Đã ghi kubeadm-config.yaml:"
+echo -e "\e[34m[ DONE ] GEN kubeadm-config.yaml DONE \e[0m"
 echo "--------------------------------------------"
-cat kubeadm-configs.yaml
+cat /tmp/kubeadm-config.yaml
 echo "--------------------------------------------"

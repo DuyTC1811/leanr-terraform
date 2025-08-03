@@ -38,6 +38,8 @@ sudo systemctl daemon-reload
 sudo systemctl enable etcd
 sudo systemctl start etcd
 
+echo -e "\e[34m[DONE] CONFIG ETCD \e[0m"
+
 # echo "[ TEST ETCD ]"
 # etcdctl --endpoints=https://127.0.0.1:2379 --cacert=/var/lib/etcd/ca.pem --cert=/var/lib/etcd/etcd.pem --key=/var/lib/etcd/etcd-key.pem del foo || true
 # etcdctl --endpoints=https://127.0.0.1:2379 --cacert=/var/lib/etcd/ca.pem --cert=/var/lib/etcd/etcd.pem --key=/var/lib/etcd/etcd-key.pem put foo "Hello ETCD"
