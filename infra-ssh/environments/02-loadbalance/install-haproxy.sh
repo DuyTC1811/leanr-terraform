@@ -78,5 +78,7 @@ sudo ufw allow 10250/tcp
 sudo ufw allow 10251/tcp
 sudo ufw allow 10252/tcp
 sudo ufw allow 10255/tcp
+sudo ufw allow 4240/tcp
+sudo ufw allow 179/tcp
 sudo ufw reload
 echo -e "\e[34m[DONE] HAProxy setup complete!\e[0m"

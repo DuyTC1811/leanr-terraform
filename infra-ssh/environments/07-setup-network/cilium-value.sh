@@ -15,6 +15,10 @@ ipam:
   operator:
     enabled: true
 
+routingMode: native
+autoDirectNodeRoutes: true
+ipv4NativeRoutingCIDR: 10.244.0.0/16
+
 kubeProxyReplacement: true
 k8sServiceHost: "$SERVER_HOST"
 k8sServicePort: 6443
