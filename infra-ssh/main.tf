@@ -42,6 +42,10 @@ module "update_hosts" {
       ssh_user = "debian"
       ssh_host = "192.168.1.55"
     }
+    "worker-04" = {
+      ssh_user = "debian"
+      ssh_host = "192.168.1.56"
+    }
   }
 
   node_map = {
@@ -49,6 +53,7 @@ module "update_hosts" {
     "192.168.1.53" = "worker-01"
     "192.168.1.54" = "worker-02"
     "192.168.1.55" = "worker-03"
+    "192.168.1.56" = "worker-04"
   }
 
   ssh_private_key_path = "./common-key/id_rsa_dev"
@@ -63,6 +68,7 @@ module "setup_nodes" {
     "192.168.1.53" = "worker-01"
     "192.168.1.54" = "worker-02"
     "192.168.1.55" = "worker-03"
+    "192.168.1.56" = "worker-04"
   }
 
   ssh_private_key_path       = "./common-key/id_rsa_dev"
@@ -81,6 +87,7 @@ module "join_nodes" {
     "192.168.1.53" = "worker-01"
     "192.168.1.54" = "worker-02"
     "192.168.1.55" = "worker-03"
+    "192.168.1.56" = "worker-04"
   }
   ssh_private_key_path = "./common-key/id_rsa_dev"
 }

@@ -42,6 +42,25 @@ defaults
     timeout client          1m
     timeout server          1m
 
+frontend front
+    bind *:80
+    mode http
+    acl is_argocd path_beg /argocd
+    acl is_nginx  path_beg /nginx
+
+    use_backend back-argocd if is_argocd
+    use_backend back-nginx  if is_nginx
+
+backend back-argocd
+    mode http
+    http-request set-header Host www.argocd.com
+    server gw-server 20.0.20.101:80
+
+backend back-nginx
+    mode http
+    http-request set-header Host www.nginx.com
+    server gw-server 20.0.20.101:80
+
 #---------------------------------------------------------------------
 # k8s-api frontend which proxys to the backends
 #---------------------------------------------------------------------
