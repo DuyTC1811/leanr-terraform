@@ -78,7 +78,7 @@ module "setup_nodes" {
 }
 
 module "join_nodes" {
-  source     = "./environments/06-join-nodes"
+  source     = "./environments/06-init-node"
   depends_on = [module.setup_nodes]
 
   ssh_user = "debian"

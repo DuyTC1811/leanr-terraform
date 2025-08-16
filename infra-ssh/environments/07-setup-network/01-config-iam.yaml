@@ -66,3 +66,4 @@ spec:
 # kubectl label nodes worker-01 bgp=enabled
 # kubectl label nodes worker-02 bgp=enabled
 # kubectl label nodes worker-03 bgp=enabled
+# kubectl label nodes worker-04 bgp=enabled

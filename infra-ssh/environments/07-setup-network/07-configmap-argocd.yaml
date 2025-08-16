@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+  namespace: argocd
+data:
+  server.insecure: "true"     # chạy HTTP
+  server.basehref: "/argocd"  # để UI load asset đúng
+  server.rootpath: "/argocd"  # để API/UI hoạt động dưới /argocd

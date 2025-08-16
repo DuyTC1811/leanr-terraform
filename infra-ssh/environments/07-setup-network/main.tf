@@ -10,21 +10,10 @@ resource "null_resource" "init_master" {
     private_key = file(var.ssh_private_key_path)
   }
 
-  # Copy file cấu hình kubeadm (đã render từ template nếu cần)
-  provisioner "file" {
-    source      = "${path.module}/gen-kubeadm-config.sh"
-    destination = "/tmp/gen-kubeadm-config.sh"
-  }
-
   # Khởi tạo master node bằng kubeadm init
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /tmp/gen-kubeadm-config.sh",
-      "echo '[INFO] Initializing master node... ${each.key}'",
-      "sudo /tmp/gen-kubeadm-config.sh ",               # Token for the control plane
-      "helm repo add cilium https://helm.cilium.io/",
-      "helm repo update",
-      "helm install cilium cilium/cilium --namespace kube-system -f /tmp/cilium-value.yaml",
+      ""
     ]
   }
 }
